@@ -1,0 +1,32 @@
+html: `
+              <div style="padding: 16px; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.8; color: #000000; text-align: left; border: 1px solid #ccc; border-radius: 8px; background-color: #ffffff;">
+                <p style="font-size: 18px; font-weight: bold; color: #000000;">
+                  Hi ${hr.name} (${hr.title}),
+                </p>
+                <p>I hope you are doing well. My name is <b>Vanguru Pradeep</b>, and I am currently in my final year of B.Tech. I am seeking a software developer role where I can apply my expertise in:</p>
+                <ul style="margin-left: 20px;">
+                  <li>Python, Java, Data Structures, OOPs, and Algorithms</li>
+                  <li>Web Design & Development (MERN Stack)</li>
+                </ul>
+                <p>
+                  As a motivated <b>Full-Stack Developer</b> with experience in the MERN stack, I have successfully contributed to projects including:
+                </p>
+                <ul style="margin-left: 20px;">
+                  <li><b>User authentication systems</b>, which verify user identities with login, registration, MFA, RBAC, and token-based security (JWT/OAuth)</li>
+                  <li>A <b>Workload Management and Substitution System</b> for faculties, which automates notifications and streamlines the substitution process</li>
+                  <li><b>Collaborative Workflow Management And Task Allocation</b> which is used to monitor the work of teammates in an organization.</li>
+                  <li><b>Smart Job Application System</b> which automates sending personalized emails with resumes to HR contacts for job opportunities.</li>
+                </ul>
+                <p>
+                  I am eager to bring my technical skills and problem-solving abilities to a dynamic organization like <b>${hr.company}</b>. I have attached my resume for your review and would appreciate the opportunity to discuss any available roles that align with my background.
+                </p>
+                <p>Looking forward to your response. Thank you for your time and consideration.</p>
+                <p style="font-size: 20px; font-weight: bold; color: #000000;">Best Regards,</p>
+                <p style="margin: 0; font-size: 20px; color: #000000;">Vanguru Pradeep</p>
+                <p style="margin: 0; font-size: 14px; color: #000000;">📌 <a href="https://www.linkedin.com/in/vanguru-pradeep-79307725b" style="color: #000000; text-decoration: none;">LinkedIn Profile</a></p>
+                <p style="margin: 0; font-size: 14px; color: #000000;">📞 7386385309</p>
+                <p style="margin-top: 20px; font-size: 16px; font-weight: bold; color: #000000;">
+                  👇 Resume Attached
+                </p>
+              </div>
+            `,
