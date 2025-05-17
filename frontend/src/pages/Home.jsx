@@ -1,12 +1,11 @@
 import React from "react";
 import EmailForm from "../components/EmailForm";
-// import ResumeUpload from "../components/ResumeUpload";
 
 const Home = () => {
+  
   return (
-    <div>
-      <h2>Send Your Application To HR's Contact</h2>
-      {/* <ResumeUpload /> */}
+    <div className="app-container">
+      <h4>Send Your Application To HR's or Referral Contacts</h4>
       <EmailForm />
     </div>
   );

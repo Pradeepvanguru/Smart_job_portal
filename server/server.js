@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const emailRoutes = require("./routes/emailRoutes");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 const path = require("path");
+const fileUpload =require('./routes/uploadCsv')
 
 const app = express();
 connectDB();
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded resume files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
+app.use('/api',fileUpload)
 app.use("/api/email", emailRoutes);
 app.use(notFound);
 app.use(errorHandler);
