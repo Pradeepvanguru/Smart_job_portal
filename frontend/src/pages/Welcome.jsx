@@ -26,7 +26,7 @@ const checkDataExists = async () => {
   if (!collectionName) return;
 
   try {
-    const response = await fetch(`http://localhost:5000/api/check-data?collectionName=${collectionName}`);
+    const response = await fetch(`${process.env.React_URI}/api/check-data?collectionName=${collectionName}`);
     const result = await response.json();
     setIsFileUploaded(result.hasData);
     
@@ -44,7 +44,7 @@ const handleDeleteData = async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:5000/api/delete-csv?collectionName=${collectionName}`, {
+    const response = await fetch(`${process.env.React_URI}/api/delete-csv?collectionName=${collectionName}`, {
       method: 'DELETE',
     });
 
@@ -81,7 +81,7 @@ const handleDeleteData = async () => {
 
 
       try {
-        const response = await fetch('http://localhost:5000/api/upload-csv', {
+        const response = await fetch(`${process.env.React_URI}/api/upload-csv`, {
           method: 'POST',
           body: formData,
         });

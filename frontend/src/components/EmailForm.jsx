@@ -1,11 +1,10 @@
 import { IoMdArrowBack } from "react-icons/io"; 
-import { IoReturnDownBackSharp } from "react-icons/io"; 
 import React, { useState, useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import "./EmailForm.css"; // Custom styles
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const EmailForm = () => {
   const [subject, setSubject] = useState("");
@@ -52,7 +51,7 @@ const EmailForm = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/api/email/keys?collectionName=${collectionName}`)
+    fetch(`${process.env.React_URI}/api/email/keys?collectionName=${collectionName}`)
       .then((res) => res.json())
       .then((data) => setKeys(data.keys))
       .catch((err) => console.error("Error fetching keys:", err));
@@ -92,7 +91,7 @@ const EmailForm = () => {
     // console.log("formdata",formData)
 
     try {
-      const response = await fetch("http://localhost:5000/api/email/send", {
+      const response = await fetch(`${process.env.React_URI}/api/email/send`, {
         method: "POST",
         body: formData,
       });
@@ -189,7 +188,7 @@ const EmailForm = () => {
         </div>
 
         <label>Placeholders:</label>
-        <p style={{float:'right'}}><i><b>Note: </b> Case sensitive,so Dont change the cases when added in the email and wright in  [ ] only.</i></p>
+        <p style={{float:'right'}}><i><b>Note: </b> It has Case sensitive,so Dont change the cases when added in the email and wright in  [ ] only.</i></p>
         <div className="placeholders ">
 
           {keys.map((key) => (
