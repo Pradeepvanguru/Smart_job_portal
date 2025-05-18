@@ -155,7 +155,7 @@ const handleDeleteData = async () => {
             <li>Click on "Import CSV File" button to upload your data</li>
             <li>Wait for the success notification</li>
             <li>Once file is uploaded, "Send Emails" button will be enabled</li>
-            <li>Click "Good to go" to proceed with sending your emails</li>
+            <li>Click "Good To GO" to proceed with sending your emails</li>
             <li>Place the correct and exact placeholder when you want in place</li>
             <li>Dont chnage the cases in the Sqaure bracketes Words Like this,ex: original[name] to [Name]✖️ </li>
             <li>Once you Completed to write the Email Then click the "Send Email" Button</li>
