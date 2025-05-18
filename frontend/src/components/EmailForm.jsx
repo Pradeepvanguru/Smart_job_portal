@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const EmailForm = () => {
   const [subject, setSubject] = useState("");
-  const [template, setTemplate] = useState(`<i><b>Example Email Template:</b><br></br>
+  const [template, setTemplate] = useState(`<b>Example Email Template:</b><br></br>
     <html>
   <body style="font-family: Arial, sans-serif; font-size: 10px; line-height: 1; color: grey;">
 
@@ -28,8 +28,7 @@ const EmailForm = () => {
        [email address]<br>
        [phone number]
     </p>
-  </body>
-</html></i>`);
+  </body></html>`);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -51,7 +50,7 @@ const EmailForm = () => {
       return;
     }
 
-    fetch(`${process.env.React_URI}/api/email/keys?collectionName=${collectionName}`)
+    fetch(`http://localhost:5000/api/email/keys?collectionName=${collectionName}`)
       .then((res) => res.json())
       .then((data) => setKeys(data.keys))
       .catch((err) => console.error("Error fetching keys:", err));
@@ -88,10 +87,8 @@ const EmailForm = () => {
     formData.append("resume", file);
     formData.append("collectionName", collectionName);
 
-    // console.log("formdata",formData)
-
     try {
-      const response = await fetch(`${process.env.React_URI}/api/email/send`, {
+      const response = await fetch(`http://localhost:5000/api/email/send`, {
         method: "POST",
         body: formData,
       });
@@ -138,7 +135,7 @@ const EmailForm = () => {
   };
 
   const handleCancel = async () => {
-    await fetch("http://localhost:5000/api/email/cancel", { method: "POST" });
+    await fetch(`http://localhost:5000/api/email/cancel`, { method: "POST" });
 
     setLoading(false);
     setShowOverlay(false);
@@ -161,7 +158,9 @@ const EmailForm = () => {
 
   return (
     <div className="email-form-container">
-   <div > <a href="/"><IoMdArrowBack fontSize={30} color="blue"/></a></div>
+      <div>
+        <a href="/"><IoMdArrowBack fontSize={30} color="blue" /></a>
+      </div>
       <form className="email-form" onSubmit={handleSubmit}>
         <div className="row">
           <div className="input-box">
@@ -181,16 +180,17 @@ const EmailForm = () => {
               type="text"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              placeholder="ex:Application for Job Title"
+              placeholder="ex: Application for Job Title"
               required
             />
           </div>
         </div>
 
         <label>Placeholders:</label>
-        <p style={{float:'right'}}><i><b>Note: </b> It has Case sensitive,so Dont change the cases when added in the email and wright in  [ ] only.</i></p>
-        <div className="placeholders ">
-
+        <p style={{ float: 'right' }}>
+          <i><b>Note:</b> It is case sensitive. Do not change the cases when adding to the email. Use [ ] brackets only.</i>
+        </p>
+        <div className="placeholders">
           {keys.map((key) => (
             <span key={key} className="placeholder-item" onClick={() => handleKeyInsert(key)}>
               + [{key}]
@@ -227,10 +227,8 @@ const EmailForm = () => {
           </div>
         </div>
       )}
-      
     </div>
   );
 };
-
 
 export default EmailForm;
