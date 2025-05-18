@@ -16,12 +16,14 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded resume files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.use('/api',fileUpload)
+app.use("/api/email", emailRoutes);
+
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend", "build", "index.html"));
 });
-app.use('/api',fileUpload)
-app.use("/api/email", emailRoutes);
 app.use(notFound);
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
