@@ -50,7 +50,7 @@ const EmailForm = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/api/email/keys?collectionName=${collectionName}`)
+    fetch(`https://smart-job-portal.onrender.com/api/email/keys?collectionName=${collectionName}`)
       .then((res) => res.json())
       .then((data) => setKeys(data.keys))
       .catch((err) => console.error("Error fetching keys:", err));
@@ -88,7 +88,7 @@ const EmailForm = () => {
     formData.append("collectionName", collectionName);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/email/send`, {
+      const response = await fetch(`https://smart-job-portal.onrender.com/api/email/send`, {
         method: "POST",
         body: formData,
       });
@@ -135,7 +135,7 @@ const EmailForm = () => {
   };
 
   const handleCancel = async () => {
-    await fetch(`http://localhost:5000/api/email/cancel`, { method: "POST" });
+    await fetch(`https://smart-job-portal.onrender.com/api/email/cancel`, { method: "POST" });
 
     setLoading(false);
     setShowOverlay(false);
