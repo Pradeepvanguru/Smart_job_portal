@@ -23,7 +23,7 @@ const Welcome = () => {
     if (!collectionName) return;
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/check-data?collectionName=${collectionName}`);
+      const response = await fetch(`https://smart-job-portal.onrender.com/api/check-data?collectionName=${collectionName}`);
       const result = await response.json();
       setIsFileUploaded(result.hasData);
     } catch (error) {
@@ -42,7 +42,7 @@ const Welcome = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/delete-csv?collectionName=${collectionName}`, {
+      const response = await fetch(`https://smart-job-portal.onrender.com/api/delete-csv?collectionName=${collectionName}`, {
         method: 'DELETE',
       });
 
@@ -75,7 +75,7 @@ const Welcome = () => {
 
         setLoading(true);
         try {
-          const response = await fetch(`http://localhost:5000/api/upload-csv`, {
+          const response = await fetch(`https://smart-job-portal.onrender.com/api/upload-csv`, {
             method: 'POST',
             body: formData,
           });
