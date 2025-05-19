@@ -1,16 +1,18 @@
-import { IoMdArrowBack } from "react-icons/io"; 
+
+import { RiSendPlaneFill } from "react-icons/ri"; 
+import { IoMdArrowBack } from "react-icons/io";
 import React, { useState, useEffect, useRef } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { toast } from "react-toastify";
 import "./EmailForm.css"; // Custom styles
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const EmailForm = () => {
   const [subject, setSubject] = useState("");
   const [template, setTemplate] = useState(`<b>Example Email Template:</b><br></br>
     <html>
-  <body style="font-family: Arial, sans-serif; font-size: 10px; line-height: 1; color: grey;">
+  <body style="font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5; color: grey;">
 
     <p>Dear <strong>[HR name]</strong>,</p>
 
@@ -38,7 +40,6 @@ const EmailForm = () => {
   const [keys, setKeys] = useState([]);
   const navigate = useNavigate();
 
-  const quillRef = useRef(null);
   const progressIntervalRef = useRef(null);
   const countdownIntervalRef = useRef(null);
 
@@ -65,7 +66,7 @@ const EmailForm = () => {
 
   const handleUpload = (e) => {
     setFile(e.target.files[0]);
-  };  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,7 +124,7 @@ const EmailForm = () => {
       setShowOverlay(false);
       setProgress(100);
       toast.success("Emails sent successfully!");
-      navigate('/')
+      navigate("/");
     } catch (error) {
       toast.error("Failed to send emails. Please try again.");
       setLoading(false);
@@ -146,20 +147,34 @@ const EmailForm = () => {
     clearInterval(countdownIntervalRef.current);
   };
 
+  // Insert placeholder text at cursor position in CKEditor content
   const handleKeyInsert = (key) => {
-    if (!quillRef.current) return;
-    const editor = quillRef.current.getEditor();
-    const position = editor.getSelection()?.index || editor.getLength();
-    const insertText = `[${key}]`;
+  const editor = editorInstance.current;
+  if (!editor) return;
 
-    editor.insertText(position, insertText);
-    editor.setSelection(position + insertText.length);
-  };
+  const insertText = `[${key}]`;
+  const viewFragment = editor.data.processor.toView(insertText);
+  const modelFragment = editor.data.toModel(viewFragment);
+
+  editor.model.insertContent(modelFragment, editor.model.document.selection);
+  editor.editing.view.focus();
+};
+
+
+  // CKEditor instance reference
+  const editorInstance= useRef(null);
+
+  const handleBack = () => {
+      navigate("/");
+    }
 
   return (
     <div className="email-form-container">
+    
       <div>
-        <a href="/"><IoMdArrowBack fontSize={30} color="blue" /></a>
+        <p onClick={()=>handleBack()} >
+          <IoMdArrowBack fontSize={30} color="blue" />
+        </p>
       </div>
       <form className="email-form" onSubmit={handleSubmit}>
         <div className="row">
@@ -174,21 +189,23 @@ const EmailForm = () => {
             />
           </div>
 
-          <div className="input-box">
+          <div className="input-box ">
             <label>Subject:</label>
             <input
-              type="text"
+              
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              placeholder="ex: Application for Job Title"
+              placeholder="ex:Application for Job Title...!"
               required
             />
           </div>
         </div>
 
-        <label>Placeholders:</label>
-        <p style={{ float: 'right' }}>
-          <i><b>Note:</b> It is case sensitive. Do not change the cases when adding to the email. Use [ ] brackets only.</i>
+        <label>Use Placeholders:</label>
+        <p style={{ float: "right" }}>
+          <i>
+            <b>Note:</b> It is case sensitive. Do not change the cases when adding to the email. Use [ ] brackets only in manually.
+          </i>
         </p>
         <div className="placeholders">
           {keys.map((key) => (
@@ -198,19 +215,41 @@ const EmailForm = () => {
           ))}
         </div>
 
-        <ReactQuill
-          ref={quillRef}
-          theme="snow"
-          value={template}
-          onChange={setTemplate}
-          placeholder="Compose your email..."
-          required
+        <CKEditor
+          editor={ClassicEditor}
+          data={template}
+          onReady={(editor) => {
+          editorInstance.current = editor;
+          editor.editing.view.change((writer) => {
+            writer.setAttribute("data-placeholder", "Compose your email...", editor.editing.view.document.getRoot());
+          });
+        }}
+
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            setTemplate(data);
+          }}
+          config={{
+            toolbar: [
+              "heading",
+              "|",
+              "bold",
+              "italic",
+              "link",
+              "bulletedList",
+              "numberedList",
+              "blockQuote",
+              "|",
+              "undo",
+              "redo",
+            ],
+          }}
         />
 
-        <input type="file" accept=".pdf,.docx" onChange={handleUpload} className="file-input" />
+        <input type="file" accept=".pdf,.docx" onChange={handleUpload} className="input-box " />
 
         <button type="submit" disabled={loading} className="submit-button">
-          {loading ? <span className="loader"></span> : "Send Emails"}
+          {loading ? <span className="loader"></span> : "Send Emails"}<RiSendPlaneFill  fontSize={20}  />
         </button>
       </form>
 
@@ -223,7 +262,9 @@ const EmailForm = () => {
             </div>
             <p>{Math.floor(progress)}% Completed</p>
             <p>Estimated Time: {timer} sec</p>
-            <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+            <button className="cancel-button" onClick={handleCancel}>
+              Cancel
+            </button>
           </div>
         </div>
       )}

@@ -185,7 +185,7 @@ const Welcome = () => {
       </div>
 
       <footer className="footer">
-        <p>&copy; 2025 vanguru pradeep. All rights reserved. <SiProcessingfoundation fontSize={13} color="grey" /></p>
+        <p>&copy; 2025 vanguru pradeep. All rights reserved. <SiProcessingfoundation fontSize={15} color="grey" /></p>
       </footer>
     </div>
   );
